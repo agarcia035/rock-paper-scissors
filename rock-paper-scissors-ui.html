@@ -32,9 +32,8 @@
       // 2 for draw
       function playRound(playerSelection, computerSelection) {
           let result;
-
+          
           if(playerSelection === computerSelection) {
-              console.log("Draw");
               return resultDiv.textContent = "It's a draw";
           } else if (playerSelection === 'rock') {
               if(computerSelection === 'paper') {
@@ -56,18 +55,23 @@
               }
           }
       }
+      const resultDiv = document.querySelector('div');
+      resultDiv.classList.add('resultDiv');     
 
       const rockButton = document.querySelector('#rock');
-      rockButton.addEventListener('click', playRound(rockButton.id, computerPlay));
+      rockButton.addEventListener('click', function() {
+          playRound(rockButton.id, computerPlay());
+      });
 
       const paperButton = document.querySelector('#paper');
-      paperButton.addEventListener('click', playRound(paperButton.id, computerPlay));
-
+      paperButton.addEventListener('click', function() {
+          playRound(paperButton.id, computerPlay());
+      });
+      
       const scissorsButton = document.querySelector('#scissors');
-      scissorsButton.addEventListener('click', playRound(scissorsButton.id, computerPlay));
-
-      const resultDiv = document.querySelector('div');
-      resultDiv.classList.add('resultDiv');      
+      scissorsButton.addEventListener('click', function() {
+          playRound(scissorsButton.id, computerPlay());
+      });  
       
 
       function game() {
@@ -76,7 +80,7 @@
           let playerWinCount = 0;
           let compWinCount = 0;
 
-          /*for (i = 0; i < 5; i++) {  
+          for (i = 0; i < 5; i++) {  
             playerSelection = prompt('What\'s your move?');
             computerSelection = computerPlay();
               
@@ -91,7 +95,7 @@
             } else if(result === 2) {
                 console.log("It's a draw")
             }
-          }*/
+          }
 
           if(playerWinCount > compWinCount) {
             console.log("You win by a score of " + playerWinCount + " to " + compWinCount)
