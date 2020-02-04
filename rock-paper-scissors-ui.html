@@ -2,6 +2,10 @@
 <html>
 <head>
   <title>Rock Paper Scissors</title>
+  <style>
+      body {max-width: 500px; margin: auto;}
+      button {margin: 300px auto 20px;}
+  </style>
 </head>
 <body>
     <button id="rock">Rock</button>
@@ -9,6 +13,9 @@
     <button id="scissors">Scissors</button>
 
     <div class="result">
+
+    </div>
+    <div id="endResult">
 
     </div>
   <script>
@@ -32,59 +39,69 @@
       let cWins = 0;
 
       // outputs result to a div below buttons
-      function playRound(playerSelection, computerSelection) {
-          while (pWins !== 5 || cWins !== 5) {
-            if(pWins === 5) {
-                return resultDiv.textContent = "You win " + pWins + " to " + cWins +"!";
-            } else if(cWins === 5) {
-                return resultDiv.textContent = "You lose " + cWins + " to " + pWins +".";
-            }  else if(playerSelection === computerSelection) {
-                return resultDiv.textContent = 'It\'s a draw! The score is Player: ' + pWins + ' to Computer: ' + cWins;
-            } else if (playerSelection === 'rock') {
-                if(computerSelection === 'paper') {
-                    cWins++;
-                    return resultDiv.textContent = 'Paper covers rock. You lose! The score is Player: ' + pWins + ' to Computer: ' + cWins;
-                } else if(computerSelection === 'scissors') {
-                    pWins++;
-                    return resultDiv.textContent = 'Rock beats scissors. You win! The score is Player: ' + pWins + ' to Computer: ' + cWins;
-                }
-            } else if (playerSelection === 'paper') {
-                if(computerSelection === 'rock') {
-                    pWins++;
-                    return resultDiv.textContent = 'Paper covers rock. You win! The score is Player: ' + pWins + ' to Computer: ' + cWins;
-                } else if(computerSelection === 'scissors') {
-                    cWins++;
-                    return resultDiv.textContent = 'Scissors cuts paper. You lose! The score is Player: ' + pWins + ' to Computer: ' + cWins;                 
-                }
-            } else if (playerSelection === 'scissors') {
-                if(computerSelection === 'rock') {
-                    cWins++;
-                    return resultDiv.textContent = 'Rock beats scissors. You lose! The score is Player: ' + pWins + ' to Computer: ' + cWins;
-                } else if(computerSelection === 'paper') {
-                    pWins++;
-                    return resultDiv.textContent = 'Scissors cuts paper. You win! The score is Player: ' + pWins + ' to Computer: ' + cWins;
-                }
+      function playRound(playerSelection, computerSelection) { 
+        if (pWins === 5 || cWins === 5) {
+            pWins = 0;
+            cWins = 0;
+        } else if(playerSelection === computerSelection) {
+            return resultDiv.textContent = 'It\'s a draw! The score is Player: ' + pWins + ' to Computer: ' + cWins;
+        } else if (playerSelection === 'rock') {
+            if(computerSelection === 'paper') {
+                cWins++;
+                return resultDiv.textContent = 'Paper covers rock. You lose! The score is Player: ' + pWins + ' to Computer: ' + cWins;
+            } else if(computerSelection === 'scissors') {
+                pWins++;
+                return resultDiv.textContent = 'Rock beats scissors. You win! The score is Player: ' + pWins + ' to Computer: ' + cWins;
             }
-          }
+        } else if (playerSelection === 'paper') {
+            if(computerSelection === 'rock') {
+                pWins++;
+                return resultDiv.textContent = 'Paper covers rock. You win! The score is Player: ' + pWins + ' to Computer: ' + cWins;
+            } else if(computerSelection === 'scissors') {
+                cWins++;
+                return resultDiv.textContent = 'Scissors cuts paper. You lose! The score is Player: ' + pWins + ' to Computer: ' + cWins;                 
+            }
+        } else if (playerSelection === 'scissors') {
+            if(computerSelection === 'rock') {
+                cWins++;
+                return resultDiv.textContent = 'Rock beats scissors. You lose! The score is Player: ' + pWins + ' to Computer: ' + cWins;
+            } else if(computerSelection === 'paper') {
+                pWins++;
+                return resultDiv.textContent = 'Scissors cuts paper. You win! The score is Player: ' + pWins + ' to Computer: ' + cWins;
+            }
+        }
       }
       const resultDiv = document.querySelector('div');
       resultDiv.classList.add('resultDiv');     
 
+      const endDiv = document.querySelector('#endResult');
+      endDiv.classList.add('endDiv');
+
       const rockButton = document.querySelector('#rock');
       rockButton.addEventListener('click', function() {
           playRound(rockButton.id, computerPlay());
+          findWinner(pWins, cWins);
       });
 
       const paperButton = document.querySelector('#paper');
       paperButton.addEventListener('click', function() {
           playRound(paperButton.id, computerPlay());
+          findWinner(pWins, cWins);
       });
       
       const scissorsButton = document.querySelector('#scissors');
       scissorsButton.addEventListener('click', function() {
           playRound(scissorsButton.id, computerPlay());
+          findWinner(pWins, cWins);
       });  
       
+      function findWinner(playerWins, compWins) {
+        if(playerWins === 5) {
+            return endDiv.textContent = "You win by a score of " + playerWins + " to " + compWins + "!";
+        } else if(compWins === 5) {
+            return endDiv.textContent = "You lose by a score of " + compWins + " to " + playerWins + ".";
+        }
+      }
 
       function game() {
           let playerSelection;
